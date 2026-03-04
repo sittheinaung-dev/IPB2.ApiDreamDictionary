@@ -1,6 +1,7 @@
 ﻿using IPB2.ApiDreamDictionary.Database.AppDbContextModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IPB2.ApiDreamDictionary.Controllers
 {
@@ -34,5 +35,60 @@ namespace IPB2.ApiDreamDictionary.Controllers
             return Ok(BlogDetail);
 
         }
+        [HttpGet("Search")]
+        public IActionResult Search(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return BadRequest("Keyword is required");
+
+            var blogHeaders = _db.BlogHeaders
+                .Where(x => EF.Functions.Like(x.BlogTitle, $"%{keyword}%"))
+                .ToList();
+
+            var blogDetails = _db.Blogdetails
+                .Where(x => EF.Functions.Like(x.BlogContent, $"%{keyword}%"))
+                .ToList();
+
+            var result = new
+            {
+                Headers = blogHeaders,
+                Details = blogDetails
+            };
+
+            return Ok(result);
+        }
+
+        //[HttpGet("Search")]
+        //public IActionResult Search(string keyword)
+        //{
+        //    if (string.IsNullOrWhiteSpace(keyword))
+        //        return BadRequest("Keyword is required");
+
+        //    var headerResults = _db.BlogHeaders
+        //        .Where(x => EF.Functions.Like(x.BlogTitle, $"%{keyword}%"))
+        //        .Select(x => new
+        //        {
+        //            Type = "Header",
+        //            Id = x.BlogId,
+        //            Text = x.BlogTitle
+        //        });
+
+        //    var detailResults = _db.Blogdetails
+        //        .Where(x => EF.Functions.Like(x.BlogContent, $"%{keyword}%"))
+        //        .Select(x => new
+        //        {
+        //            Type = "Detail",
+        //            Id = x.BlogDetailId,
+        //            Text = x.BlogContent
+        //        });
+
+        //    var result = headerResults
+        //        .Union(detailResults)
+        //        .ToList();
+
+        //    return Ok(result);
+        //}
+
+
     }
 }
