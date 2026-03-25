@@ -1,0 +1,47 @@
+@model IPB2.ApiDreamDictionaryMVC.Controllers.BlogDetail.BlogDetailRequest
+
+@{
+    ViewData["Title"] = "Create Blog Detail";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-success text-white py-3">
+                    <h3 class="mb-0">Create Blog Detail</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="BlogDetailId" class="form-label fw-bold">Detail ID</label>
+                            <input asp-for="BlogDetailId" class="form-control form-control-lg" placeholder="Enter Numeric Detail ID" />
+                            <span asp-validation-for="BlogDetailId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BlogId" class="form-label fw-bold">Select Blog Header</label>
+                            <select asp-for="BlogId" class="form-select form-select-lg" asp-items="ViewBag.BlogId">
+                                <option value="">-- Select Header --</option>
+                            </select>
+                            <span asp-validation-for="BlogId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="BlogContent" class="form-label fw-bold">Content</label>
+                            <textarea asp-for="BlogContent" class="form-control" rows="5" placeholder="Enter Blog Content"></textarea>
+                            <span asp-validation-for="BlogContent" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">Create Detail</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
